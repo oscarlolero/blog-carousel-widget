@@ -1,40 +1,57 @@
 import './App.css'
 import {useEffect, useState} from "react";
+import NewsCard, {News} from "./components/NewsCard.tsx";
 
-type New = {
-  title: string
-  link: string
+interface NewsAPI {
+  title: string;
+  image: string;
+  tags: string[];
+  date_published: string;
+  url: string;
+  author: {
+    name: string;
+  }
 }
 
 function App() {
 
-  const [news, setNews] = useState([])
+  const [news, setNews] = useState<typeof NewsCard[]>([]);
 
   useEffect(() => {
     fetch('https://blog.jonajo.com/feed/json').then((response) => {
       return response.json()
     }).then((data) => {
-      setNews(data.items)
+
+      setNews(data.items.slice(0,3).map((news: NewsAPI) => {
+        return {
+          title: news.title,
+          image: news.image,
+          category: news.tags[0],
+          date: news.date_published,
+          url: news.url,
+          author: news.author.name
+        }
+      }))
     })
   }, []);
 
   useEffect(() => {
     if (news) {
-      console.log(news)
+      console.log(news[0])
     }
   }, [news]);
 
   return (
     <>
-      {
-        news && news.map((item: New, index) => {
-          return (
-            <div key={index}>
-              <p>{item.title}</p>
-            </div>
-          )
-        })
-      }
+      <div className={"container"}>
+        {
+          news && news.length > 0 && news.map((newsItem: News, index) => {
+            return (
+              <NewsCard key={index} news={newsItem}/>
+            )
+          })
+        }
+      </div>
     </>
   )
 }
