@@ -1,6 +1,7 @@
 import './App.css'
 import {useEffect, useState} from "react";
 import NewsCard, {News} from "./components/NewsCard.tsx";
+import Carousel from "./components/Carousel.tsx";
 
 interface NewsAPI {
   title: string;
@@ -41,17 +42,19 @@ function App() {
     }
   }, [news]);
 
+  const slides = ['#49b293', '#b03532', '#6a478f', '#da6f2b', '#123456'];
   return (
     <>
-      <div className={"container"}>
-        {
-          news && news.length > 0 && news.map((newsItem: News, index) => {
-            return (
-              <NewsCard key={index} news={newsItem}/>
-            )
-          })
-        }
-      </div>
+      <Carousel slides={slides} />
+      {/*<div className={"container"}>*/}
+      {/*  {*/}
+      {/*    news && news.length > 0 && news.map((newsItem: News, index) => {*/}
+      {/*      return (*/}
+      {/*        <NewsCard key={index} news={newsItem}/>*/}
+      {/*      )*/}
+      {/*    })*/}
+      {/*  }*/}
+      {/*</div>*/}
     </>
   )
 }

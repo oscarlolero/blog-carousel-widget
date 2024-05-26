@@ -1,10 +1,10 @@
-#root {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/*#root {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
 
-    background-color: #909090;
-}
+/*    background-color: #909090;*/
+/*}*/
 
 .container {
     display: flex;
