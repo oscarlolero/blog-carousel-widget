@@ -1,5 +1,6 @@
 import './App.css'
 import {useEffect, useState} from "react";
+import dayjs from "dayjs";
 import NewsCard, {News} from "./components/NewsCard.tsx";
 import Carousel from "./components/Carousel.tsx";
 
@@ -27,7 +28,7 @@ function App() {
           title: news.title,
           image: news.image,
           category: news.tags[0],
-          date: news.date_published,
+          date: dayjs(news.date_published).format("MMM D, YYYY"),
           url: news.url,
           author: news.author.name
         }

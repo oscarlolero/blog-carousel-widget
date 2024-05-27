@@ -29,7 +29,7 @@ export default function NewsCard({news}: NewsProps) {
             { capitalizeFirstLetter(news.category) }
           </div>
           <div className={styles.card__date}>
-            Jan 24, 2024
+            { news.date }
           </div>
         </div>
         <div className={styles.card__title}>
