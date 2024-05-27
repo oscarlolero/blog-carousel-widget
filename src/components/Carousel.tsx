@@ -9,21 +9,30 @@ interface CarouselProps {
 const Carousel: React.FC<CarouselProps> = ({ children }) => {
   const slidesContainerRef = useRef<HTMLUListElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isAnimating, setIsAnimating] = useState(false);
   const totalPages = React.Children.count(children);
+  const animationDuration = 1000;
+
 
   const handleNextClick = () => {
+    if (isAnimating) return;
     if (slidesContainerRef.current) {
       const slideWidth = slidesContainerRef.current.firstElementChild?.clientWidth || 0;
       slidesContainerRef.current.scrollLeft += slideWidth;
       setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+      setIsAnimating(true);
+      setTimeout(() => setIsAnimating(false), animationDuration);
     }
   };
 
   const handlePrevClick = () => {
+    if (isAnimating) return;
     if (slidesContainerRef.current) {
       const slideWidth = slidesContainerRef.current.firstElementChild?.clientWidth || 0;
       slidesContainerRef.current.scrollLeft -= slideWidth;
       setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+      setIsAnimating(true);
+      setTimeout(() => setIsAnimating(false), animationDuration);
     }
   };
 
@@ -41,12 +50,14 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
           <button
             className={`${styles.controlButton} ${currentPage > 1 ? styles.selected : ''}`}
             onClick={handlePrevClick}
+            disabled={isAnimating}
           >
             <img src={arrow} alt={"Previous arrow icon"} className={styles.inverted} />
           </button>
           <button
             className={`${styles.controlButton} ${currentPage < totalPages ? styles.selected : ''}`}
             onClick={handleNextClick}
+            disabled={isAnimating}
           >
             <img src={arrow} alt={"Next arrow icon"} />
           </button>
