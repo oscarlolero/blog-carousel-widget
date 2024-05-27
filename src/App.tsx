@@ -15,8 +15,32 @@ interface NewsAPI {
   };
 }
 
+function useResponsiveChunks() {
+  const [chunkSize, setChunkSize] = useState(3);
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 585) {
+        setChunkSize(1);
+      } else if (window.innerWidth < 880) {
+        setChunkSize(2);
+      } else {
+        setChunkSize(3);
+      }
+    }
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return chunkSize;
+}
+
 function App() {
   const [news, setNews] = useState<News[][]>([]);
+  const chunkSize = useResponsiveChunks();
 
   useEffect(() => {
     fetch('https://blog.jonajo.com/feed/json')
@@ -32,9 +56,9 @@ function App() {
             author: news.author.name,
           };
         });
-        setNews(chunkArray(processedNews, 3));
+        setNews(chunkArray(processedNews, chunkSize));
       });
-  }, []);
+  }, [chunkSize]);
 
   function chunkArray(array: News[], chunkSize: number) {
     const result = [];

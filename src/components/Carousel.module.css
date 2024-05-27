@@ -1,6 +1,8 @@
 .sliderWrapper {
     position: relative;
     overflow: hidden;
+
+    max-width: 940px;
 }
 
 .slidesContainer {
