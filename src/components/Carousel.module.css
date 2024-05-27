@@ -1,12 +1,3 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    max-width: 1440px;
-    margin: auto;
-}
-
 .sliderWrapper {
     margin: 1rem;
     position: relative;
@@ -14,7 +5,6 @@ body {
 }
 
 .slidesContainer {
-    height: calc(100vh - 2rem);
     width: 100%;
     display: flex;
     overflow: scroll;
@@ -40,23 +30,35 @@ body {
 }
 
 .controls {
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
+    margin-top: 25px;
 }
 
 .controlButton {
-    background-color: white;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    margin: 0 0.5rem;
+    width: 56px;
+    height: 56px;
+    background-color: transparent;
+
     opacity: 0.5;
-    transition: opacity 100ms;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-bottom-left-radius: 16px;
+    border-top-right-radius: 16px;
 }
 
-.controlButton:hover,
-.controlButton:focus {
+.controlButton.selected {
     opacity: 1;
+    border: none;
+    background-color: rgba(11, 123, 226, 1);
 }
+
+.controlButton:nth-child(1) {
+    margin-right: 20px;
+}
+
+.controlButton .inverted {
+    transform: rotate(180deg);
+}
+
+/*.controlButton:hover,*/
+/*.controlButton:focus {*/
+/*    opacity: 1;*/
+/*}*/

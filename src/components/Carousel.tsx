@@ -1,17 +1,21 @@
-import React, { ReactNode, useRef } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import styles from './Carousel.module.css';
+import arrow from '../assets/arrow-right.svg';
 
 interface CarouselProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const Carousel: React.FC<CarouselProps> = ({ children }) => {
   const slidesContainerRef = useRef<HTMLUListElement>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = React.Children.count(children);
 
   const handleNextClick = () => {
     if (slidesContainerRef.current) {
       const slideWidth = slidesContainerRef.current.firstElementChild?.clientWidth || 0;
       slidesContainerRef.current.scrollLeft += slideWidth;
+      setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
     }
   };
 
@@ -19,6 +23,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
     if (slidesContainerRef.current) {
       const slideWidth = slidesContainerRef.current.firstElementChild?.clientWidth || 0;
       slidesContainerRef.current.scrollLeft -= slideWidth;
+      setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
     }
   };
 
@@ -33,8 +38,18 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
           ))}
         </ul>
         <div className={styles.controls}>
-          <button className={styles.controlButton} onClick={handlePrevClick}>Prev</button>
-          <button className={styles.controlButton} onClick={handleNextClick}>Next</button>
+          <button
+            className={`${styles.controlButton} ${currentPage > 1 ? styles.selected : ''}`}
+            onClick={handlePrevClick}
+          >
+            <img src={arrow} alt={"Previous arrow icon"} className={styles.inverted} />
+          </button>
+          <button
+            className={`${styles.controlButton} ${currentPage < totalPages ? styles.selected : ''}`}
+            onClick={handleNextClick}
+          >
+            <img src={arrow} alt={"Next arrow icon"} />
+          </button>
         </div>
       </section>
     </>
