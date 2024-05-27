@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import styles from './Carousel.module.css';
 
 interface CarouselProps {
-  slides: string[];
+  children: ReactNode
 }
 
-const Carousel: React.FC<CarouselProps> = ({ slides }) => {
+const Carousel: React.FC<CarouselProps> = ({ children }) => {
   const slidesContainerRef = useRef<HTMLUListElement>(null);
 
   const handleNextClick = () => {
@@ -26,8 +26,10 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
     <>
       <section className={styles.sliderWrapper}>
         <ul className={styles.slidesContainer} ref={slidesContainerRef}>
-          {slides.map((slide, index) => (
-            <li key={index} className={styles.slide} style={{ backgroundColor: slide }}></li>
+          {React.Children.map(children, (child, index) => (
+            <li key={index} className={styles.slide}>
+              {child}
+            </li>
           ))}
         </ul>
         <div className={styles.controls}>

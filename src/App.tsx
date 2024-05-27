@@ -16,14 +16,13 @@ interface NewsAPI {
 
 function App() {
 
-  const [news, setNews] = useState<typeof NewsCard[]>([]);
+  const [news, setNews] = useState<typeof NewsCard[][]>([]);
 
   useEffect(() => {
     fetch('https://blog.jonajo.com/feed/json').then((response) => {
       return response.json()
     }).then((data) => {
-
-      setNews(data.items.slice(0,3).map((news: NewsAPI) => {
+      const processedNews = data.items.map((news: NewsAPI) => {
         return {
           title: news.title,
           image: news.image,
@@ -32,29 +31,43 @@ function App() {
           url: news.url,
           author: news.author.name
         }
-      }))
+      })
+      setNews(chunkArray(processedNews, 3))
     })
   }, []);
 
-  useEffect(() => {
-    if (news) {
-      console.log(news[0])
-    }
-  }, [news]);
+  // useEffect(() => {
+  //   if (news) {
+  //     console.log(news[0])
+  //   }
+  // }, [news]);
 
-  const slides = ['#49b293', '#b03532', '#6a478f', '#da6f2b', '#123456'];
+  function chunkArray(array: News[], chunkSize: number) {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      const chunk = array.slice(i, i + chunkSize);
+      result.push(chunk);
+    }
+    return result;
+  }
+
   return (
     <>
-      <Carousel slides={slides} />
-      {/*<div className={"container"}>*/}
-      {/*  {*/}
-      {/*    news && news.length > 0 && news.map((newsItem: News, index) => {*/}
-      {/*      return (*/}
-      {/*        <NewsCard key={index} news={newsItem}/>*/}
-      {/*      )*/}
-      {/*    })*/}
-      {/*  }*/}
-      {/*</div>*/}
+      <Carousel>
+        {
+          news && news.length > 0 && news.map((newsChunk: News[], index) => {
+            return (
+              <div className={"container"} key={index}>
+                {
+                  newsChunk.map((news: News, index) => {
+                    return <NewsCard key={index} news={news}/>
+                  })
+                }
+              </div>
+            )
+          })
+        }
+      </Carousel>
     </>
   )
 }
