@@ -21,7 +21,7 @@ export default function NewsCard({news}: NewsProps) {
   }
 
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={() => window.open(news.url, '_blank')}>
       <img className={styles.card__cover} src={news.image} alt={"NewsCard cover photo"}/>
       <div className={styles.card__content}>
         <div className={styles.card__description}>
