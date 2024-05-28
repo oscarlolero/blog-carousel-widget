@@ -86,3 +86,21 @@
     width: 28px;
     height: 28px;
 }
+
+.seeAllText {
+    display: none;
+}
+
+@media (max-width: 400px) {
+    .visitOurBlogText {
+        display: none;
+    }
+
+    .seeAllText {
+        display: block;
+    }
+
+    .visitBlog {
+        width: 40%;
+    }
+}

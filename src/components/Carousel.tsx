@@ -66,7 +66,8 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
             className={styles.visitBlog}
             onClick={() => window.open('https://blog.jonajo.com', '_blank')}
           >
-            <div>Visit Our Blog</div>
+            <div className={styles.visitOurBlogText}>Visit Our Blog</div>
+            <div className={styles.seeAllText}>See All</div>
             <img src={arrow} alt={"Blog arrow icon"}/>
           </button>
         </div>
