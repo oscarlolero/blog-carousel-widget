@@ -30,10 +30,6 @@
     flex: 1 0 100%;
 }
 
-.controls {
-    margin-top: 25px;
-}
-
 .controlButton {
     width: 56px;
     height: 56px;
@@ -59,7 +55,34 @@
     transform: rotate(180deg);
 }
 
-/*.controlButton:hover,*/
-/*.controlButton:focus {*/
-/*    opacity: 1;*/
-/*}*/
+.bottomContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.visitBlog {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    background-color: transparent;
+    width: 188px;
+    height: 48px;
+    color: white;
+
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+
+    border: 1.2px solid white;
+    border-top-right-radius: 19px;
+    border-bottom-left-radius: 19px;
+}
+
+.visitBlog img {
+    width: 28px;
+    height: 28px;
+}

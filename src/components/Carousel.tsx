@@ -11,8 +11,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
   const totalPages = React.Children.count(children);
-  const animationDuration = 1000;
-
+  const animationDuration = 700;
 
   const handleNextClick = () => {
     if (isAnimating) return;
@@ -46,20 +45,29 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
             </li>
           ))}
         </ul>
-        <div className={styles.controls}>
+        <div className={styles.bottomContainer}>
+          <div className={styles.controls}>
+            <button
+              className={`${styles.controlButton} ${currentPage > 1 ? styles.selected : ''}`}
+              onClick={handlePrevClick}
+              disabled={isAnimating}
+            >
+              <img src={arrow} alt={"Previous arrow icon"} className={styles.inverted}/>
+            </button>
+            <button
+              className={`${styles.controlButton} ${currentPage < totalPages ? styles.selected : ''}`}
+              onClick={handleNextClick}
+              disabled={isAnimating}
+            >
+              <img src={arrow} alt={"Next arrow icon"}/>
+            </button>
+          </div>
           <button
-            className={`${styles.controlButton} ${currentPage > 1 ? styles.selected : ''}`}
-            onClick={handlePrevClick}
-            disabled={isAnimating}
+            className={styles.visitBlog}
+            onClick={() => window.open('https://blog.jonajo.com', '_blank')}
           >
-            <img src={arrow} alt={"Previous arrow icon"} className={styles.inverted} />
-          </button>
-          <button
-            className={`${styles.controlButton} ${currentPage < totalPages ? styles.selected : ''}`}
-            onClick={handleNextClick}
-            disabled={isAnimating}
-          >
-            <img src={arrow} alt={"Next arrow icon"} />
+            <div>Visit Our Blog</div>
+            <img src={arrow} alt={"Blog arrow icon"}/>
           </button>
         </div>
       </section>
