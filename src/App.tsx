@@ -13,6 +13,7 @@ interface NewsAPI {
   author: {
     name: string;
   };
+  selected: boolean;
 }
 
 function useResponsiveChunks() {
@@ -54,30 +55,50 @@ function App() {
             date: dayjs(news.date_published).format('MMM D, YYYY'),
             url: news.url,
             author: news.author.name,
+            selected: false
           };
         });
-        setNews(chunkArray(processedNews, chunkSize));
+
+        const chunkedNews = chunkArray(processedNews, chunkSize);
+
+        // Set the first news as selected
+        // @ts-expect-error TODO: FIX THIS
+        chunkedNews[0][0].selected = true;
+        setNews(chunkedNews);
       });
   }, [chunkSize]);
 
-  function chunkArray(array: News[], chunkSize: number) {
+  function chunkArray(array: [], chunkSize: number) {
     const result = [];
-    for (let i = 0; i < array.length; i += chunkSize) {
+    const totalChunks = Math.floor(array.length / chunkSize);
+
+    for (let i = 0; i < totalChunks * chunkSize; i += chunkSize) {
       const chunk = array.slice(i, i + chunkSize);
       result.push(chunk);
     }
+
     return result;
+  }
+
+  function selectedCardNews(chunkIndex: number, newsIndex: number) {
+    const updatedNews = news.map((newsChunk: News[], ci) => {
+      return newsChunk.map((news: News, ni) => {
+        return { ...news, selected: ci === chunkIndex && ni === newsIndex };
+      });
+    });
+
+    setNews(updatedNews);
   }
 
   return (
     <>
       <Carousel>
         {news && news.length > 0 &&
-          news.map((newsChunk: News[], index) => {
+          news.map((newsChunk: News[], chunkNewsIndex) => {
             return (
-              <div className="slide" key={index}>
-                {newsChunk.map((news: News, index) => {
-                  return <NewsCard key={index} news={news} />;
+              <div className="slide" key={chunkNewsIndex}>
+                {newsChunk.map((news: News, newsIndex) => {
+                  return <NewsCard key={newsIndex} news={news} onTap={() => selectedCardNews(chunkNewsIndex, newsIndex) } />;
                 })}
               </div>
             );

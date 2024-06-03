@@ -7,21 +7,26 @@ export interface News {
   date: string;
   url: string;
   author: string;
-  image: string
+  image: string;
+  selected: boolean;
 }
 
 interface NewsProps {
   news: News;
+  onTap: () => void;
 }
 
-export default function NewsCard({news}: NewsProps) {
+export default function NewsCard({news, onTap}: NewsProps) {
 
   function capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   }
 
   return (
-    <div className={styles.card} onClick={() => window.open(news.url, '_blank')}>
+    <div className={`${styles.card} ${news.selected ? styles.selected : ''}`} onClick={() => {
+      onTap();
+      window.open(news.url, '_blank');
+    }}>
       <img className={styles.card__cover} src={news.image} alt={"NewsCard cover photo"}/>
       <div className={styles.card__content}>
         <div className={styles.card__description}>

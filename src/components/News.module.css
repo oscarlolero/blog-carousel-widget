@@ -3,10 +3,14 @@
 
     width: 290px;
     height: 430px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.05);
 
     border-top-right-radius: 48px;
     border-bottom-left-radius: 48px;
+}
+
+.card.selected {
+    background-color: white;
 }
 
 .card__cover {
@@ -44,7 +48,7 @@
 
 .card__date {
     font-size: 14px;
-    color: rgba(51, 51, 51, 0.8);
+    color: rgba(255, 255, 255, 0.8);
     align-content: center;
     margin-left: 10px;
 
@@ -53,9 +57,14 @@
     font-style: normal;
 }
 
+.selected .card__date {
+    color: rgba(51, 51, 51, 0.8);
+
+}
+
 .card__title {
     margin-top: 18px;
-    color: rgba(41, 41, 41, 1);
+    color: white;
     line-height: 28px;
     height: 56px;
     font-size: 20px;
@@ -69,6 +78,10 @@
     -webkit-line-clamp: 2;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.selected .card__title {
+    color: rgba(41, 41, 41, 1);
 }
 
 .card__author__photo {
@@ -88,10 +101,14 @@
 .card__author__name {
     margin-left: 10px;
     align-content: center;
-    color: rgba(51, 51, 51, 0.8);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 14px;
 
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
+}
+
+.selected .card__author__name {
+    color: rgba(51, 51, 51, 0.8);
 }
