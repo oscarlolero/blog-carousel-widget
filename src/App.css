@@ -3,18 +3,10 @@
     align-items: center;
     justify-content: center;
 
-    /*background-color: #909090;*/
+    background-color: #909090;
 }
 
 body {
     margin: 0;
     padding: 0;
-}
-
-.slide {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-around;
 }

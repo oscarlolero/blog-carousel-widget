@@ -1,76 +1,82 @@
-import React, { ReactNode, useRef, useState } from 'react';
+import React, {ReactNode, useState} from 'react';
 import styles from './Carousel.module.css';
 import arrow from '../assets/arrow-right.svg';
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 
 interface CarouselProps {
   children: ReactNode;
 }
 
+const PreviousButton = ({ isDisabled }: { isDisabled: boolean }) => {
+  const swiper = useSwiper();
+  return (
+    <button
+      className={`${styles.controlButton} ${!isDisabled ? styles.selected : ''}`}
+      onClick={() => swiper.slidePrev()}
+      disabled={isDisabled}
+    >
+      <img src={arrow} alt={"Previous arrow icon"} className={styles.inverted} />
+    </button>
+  );
+}
+
+const NextButton = ({ isDisabled }: { isDisabled: boolean }) => {
+  const swiper = useSwiper();
+  return (
+    <button
+      className={`${styles.controlButton} ${!isDisabled ? styles.selected : ''}`}
+      onClick={() => swiper.slideNext()}
+      disabled={isDisabled}
+    >
+      <img src={arrow} alt={"Next arrow icon"} />
+    </button>
+  );
+}
+
 const Carousel: React.FC<CarouselProps> = ({ children }) => {
-  const slidesContainerRef = useRef<HTMLUListElement>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const totalPages = React.Children.count(children);
-  const animationDuration = 700;
+  const [isAtBeginning, setIsAtBeginning] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
 
-  const handleNextClick = () => {
-    if (isAnimating) return;
-    if (slidesContainerRef.current) {
-      const slideWidth = slidesContainerRef.current.firstElementChild?.clientWidth || 0;
-      slidesContainerRef.current.scrollLeft += slideWidth;
-      setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-      setIsAnimating(true);
-      setTimeout(() => setIsAnimating(false), animationDuration);
-    }
-  };
-
-  const handlePrevClick = () => {
-    if (isAnimating) return;
-    if (slidesContainerRef.current) {
-      const slideWidth = slidesContainerRef.current.firstElementChild?.clientWidth || 0;
-      slidesContainerRef.current.scrollLeft -= slideWidth;
-      setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-      setIsAnimating(true);
-      setTimeout(() => setIsAnimating(false), animationDuration);
-    }
-  };
 
   return (
     <>
       <section className={styles.sliderWrapper}>
-        <ul className={styles.slidesContainer} ref={slidesContainerRef}>
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={50}
+          slidesPerView={3}
+          slidesPerGroup={1}
+          onSlideChange={(swiper) => {
+            setIsAtBeginning(swiper.isBeginning);
+            setIsAtEnd(swiper.isEnd);
+          }}
+          onReachEnd={() => setIsAtEnd(true)}
+          onReachBeginning={() => setIsAtBeginning(true)}
+          navigation
+        >
           {React.Children.map(children, (child, index) => (
-            <li key={index} className={styles.slide}>
-              {child}
-            </li>
+            <SwiperSlide key={index}>
+              <li className={styles.slide}>
+                {child}
+              </li>
+            </SwiperSlide>
           ))}
-        </ul>
-        <div className={styles.bottomContainer}>
-          <div className={styles.controls}>
+          <div className={styles.bottomContainer}>
+            <div className={styles.controls}>
+              <PreviousButton isDisabled={isAtBeginning} />
+              <NextButton isDisabled={isAtEnd} />
+            </div>
             <button
-              className={`${styles.controlButton} ${currentPage > 1 ? styles.selected : ''}`}
-              onClick={handlePrevClick}
-              disabled={isAnimating}
+              className={styles.visitBlog}
+              onClick={() => window.open('https://blog.jonajo.com', '_blank')}
             >
-              <img src={arrow} alt={"Previous arrow icon"} className={styles.inverted}/>
-            </button>
-            <button
-              className={`${styles.controlButton} ${currentPage < totalPages ? styles.selected : ''}`}
-              onClick={handleNextClick}
-              disabled={isAnimating}
-            >
-              <img src={arrow} alt={"Next arrow icon"}/>
+              <div className={styles.visitOurBlogText}>Visit Our Blog</div>
+              <div className={styles.seeAllText}>See All</div>
+              <img src={arrow} alt={"Blog arrow icon"} />
             </button>
           </div>
-          <button
-            className={styles.visitBlog}
-            onClick={() => window.open('https://blog.jonajo.com', '_blank')}
-          >
-            <div className={styles.visitOurBlogText}>Visit Our Blog</div>
-            <div className={styles.seeAllText}>See All</div>
-            <img src={arrow} alt={"Blog arrow icon"}/>
-          </button>
-        </div>
+        </Swiper>
       </section>
     </>
   );
