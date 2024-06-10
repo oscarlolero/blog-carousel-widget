@@ -1,7 +1,6 @@
 import React, {ReactNode, useState} from 'react';
 import styles from './Carousel.module.css';
 import arrow from '../assets/arrow-right.svg';
-import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 
 interface CarouselProps {
@@ -34,26 +33,28 @@ const NextButton = ({ isDisabled }: { isDisabled: boolean }) => {
   );
 }
 
+
 const Carousel: React.FC<CarouselProps> = ({ children }) => {
   const [isAtBeginning, setIsAtBeginning] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
-
 
   return (
     <>
       <section className={styles.sliderWrapper}>
         <Swiper
-          modules={[Navigation]}
           spaceBetween={50}
           slidesPerView={3}
           slidesPerGroup={1}
+          onInit={() => {
+            setIsAtBeginning(true);
+            setIsAtEnd(false);
+          }}
           onSlideChange={(swiper) => {
             setIsAtBeginning(swiper.isBeginning);
             setIsAtEnd(swiper.isEnd);
           }}
           onReachEnd={() => setIsAtEnd(true)}
           onReachBeginning={() => setIsAtBeginning(true)}
-          navigation
         >
           {React.Children.map(children, (child, index) => (
             <SwiperSlide key={index}>

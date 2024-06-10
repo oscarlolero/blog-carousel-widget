@@ -1,8 +1,7 @@
 import './App.css';
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import dayjs from 'dayjs';
 import NewsCard, {News} from './components/NewsCard';
-import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
@@ -51,9 +50,7 @@ function App() {
       <Carousel>
         {news && news.map((news: News, index) => {
           return (
-            <SwiperSlide>
-              <NewsCard key={index} news={news} onTap={() => {console.log('DO NOTHING')}}/>
-            </SwiperSlide>
+            <NewsCard key={index} news={news} onTap={() => {console.log('DO NOTHING')}}/>
           )
         })}
       </Carousel>
