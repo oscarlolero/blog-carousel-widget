@@ -2,6 +2,10 @@ import React, {ReactNode, useState} from 'react';
 import styles from './Carousel.module.css';
 import arrow from '../assets/arrow-right.svg';
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import 'swiper/css';
 
 interface CarouselProps {
   children: ReactNode;
