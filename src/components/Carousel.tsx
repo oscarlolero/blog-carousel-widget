@@ -1,7 +1,7 @@
 import React, {ReactNode, useState} from 'react';
 import styles from './Carousel.module.css';
 import arrow from '../assets/arrow-right.svg';
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import {Swiper, SwiperSlide, useSwiper} from "swiper/react";
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
@@ -9,9 +9,10 @@ import 'swiper/css';
 
 interface CarouselProps {
   children: ReactNode;
+  mode: string | null | undefined;
 }
 
-const PreviousButton = ({ isDisabled }: { isDisabled: boolean }) => {
+const PreviousButton = ({isDisabled}: { isDisabled: boolean }) => {
   const swiper = useSwiper();
   return (
     <button
@@ -19,12 +20,12 @@ const PreviousButton = ({ isDisabled }: { isDisabled: boolean }) => {
       onClick={() => swiper.slidePrev()}
       disabled={isDisabled}
     >
-      <img src={arrow} alt={"Previous arrow icon"} className={styles.inverted} />
+      <img src={arrow} alt={"Previous arrow icon"} className={styles.inverted}/>
     </button>
   );
 }
 
-const NextButton = ({ isDisabled }: { isDisabled: boolean }) => {
+const NextButton = ({isDisabled}: { isDisabled: boolean }) => {
   const swiper = useSwiper();
   return (
     <button
@@ -32,13 +33,13 @@ const NextButton = ({ isDisabled }: { isDisabled: boolean }) => {
       onClick={() => swiper.slideNext()}
       disabled={isDisabled}
     >
-      <img src={arrow} alt={"Next arrow icon"} />
+      <img src={arrow} alt={"Next arrow icon"}/>
     </button>
   );
 }
 
 
-const Carousel: React.FC<CarouselProps> = ({ children }) => {
+const Carousel: React.FC<CarouselProps> = ({children, mode}) => {
   const [isAtBeginning, setIsAtBeginning] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
 
@@ -46,7 +47,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
     <>
       <section className={styles.sliderWrapper}>
         <Swiper
-          spaceBetween={50}
+          spaceBetween={40}
           slidesPerView={3}
           slidesPerGroup={1}
           breakpoints={{
@@ -82,18 +83,21 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
             </SwiperSlide>
           ))}
           <div className={styles.bottomContainer}>
-            <div className={styles.controls}>
-              <PreviousButton isDisabled={isAtBeginning} />
-              <NextButton isDisabled={isAtEnd} />
+            <div className={mode === 'testimonials' ? styles.controls : ''}>
+              <PreviousButton isDisabled={isAtBeginning}/>
+              <NextButton isDisabled={isAtEnd}/>
             </div>
-            <button
-              className={styles.visitBlog}
-              onClick={() => window.open('https://blog.jonajo.com', '_blank')}
-            >
-              <div className={styles.visitOurBlogText}>Visit Our Blog</div>
-              <div className={styles.seeAllText}>See All</div>
-              <img src={arrow} alt={"Blog arrow icon"} />
-            </button>
+            {
+              mode === 'blog' &&
+              <button
+                className={styles.visitBlog}
+                onClick={() => window.open('https://blog.jonajo.com', '_blank')}
+              >
+                <div className={styles.desktopButtonText}>Visit Our Blog</div>
+                <div className={styles.mobileButtonText}>See All</div>
+                <img src={arrow} alt={"Blog arrow icon"}/>
+              </button>
+            }
           </div>
         </Swiper>
       </section>

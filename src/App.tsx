@@ -61,8 +61,8 @@ function App() {
             author: news.author.name,
             selected: false
           }
-        }) as News[];
-
+        }) as News[]
+        processedNews[0].selected = true;
         setNews(processedNews);
       } catch (err) {
         console.error("Error fetching collection items:", err);
@@ -79,11 +79,16 @@ function App() {
 
   return (
     <>
-      <Carousel>
-        {news && news.map((news: News, index) => {
+      <Carousel mode={carouselMode}>
+        {news && news.map((newsItem: News, index) => {
           return (
-            <NewsCard key={index} news={news} onTap={() => {
-              console.log('DO NOTHING')
+            <NewsCard key={index} news={newsItem} onTap={() => {
+              // Update the selected news item
+              const updatedNews = news.map((news, i) => {
+                news.selected = i === index;
+                return news;
+              });
+              setNews(updatedNews);
             }}/>
           )
         })}

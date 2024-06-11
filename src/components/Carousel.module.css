@@ -92,20 +92,26 @@
     height: 28px;
 }
 
-.seeAllText {
+.mobileButtonText {
     display: none;
 }
 
-@media (max-width: 400px) {
-    .visitOurBlogText {
+@media (max-width: 450px) {
+    .desktopButtonText {
         display: none;
     }
 
-    .seeAllText {
+    .mobileButtonText {
         display: block;
     }
 
     .visitBlog {
         width: 40%;
+    }
+
+    .controls {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
     }
 }
