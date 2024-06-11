@@ -51,7 +51,7 @@ const Carousel: React.FC<CarouselProps> = ({children, mode}) => {
             940: {
               slidesPerView: 3,
             },
-            768: {
+            728: {
               slidesPerView: 2,
             },
             0: {
