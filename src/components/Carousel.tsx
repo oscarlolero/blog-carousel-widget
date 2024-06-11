@@ -48,15 +48,12 @@ const Carousel: React.FC<CarouselProps> = ({children, mode}) => {
           slidesPerView={3}
           slidesPerGroup={1}
           breakpoints={{
-            // when window width is >= 1024px (desktop)
-            1024: {
+            940: {
               slidesPerView: 3,
             },
-            // when window width is >= 768px (tablet)
             768: {
               slidesPerView: 2,
             },
-            // default (mobile)
             0: {
               slidesPerView: 1,
             },

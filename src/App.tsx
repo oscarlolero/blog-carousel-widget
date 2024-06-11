@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import NewsCard, {News} from './components/NewsCard';
 import Carousel from "./components/Carousel.tsx";
 import {useSearchParams} from "react-router-dom";
-import {WebflowClient} from "webflow-api";
 import ClientCard, {Client} from "./components/ClientCard.tsx";
 
 function App() {
@@ -13,33 +12,17 @@ function App() {
 
   const [searchParams] = useSearchParams();
   const carouselMode = searchParams.get('carouselMode');
-  const webflow = new WebflowClient({accessToken: import.meta.env.VITE_WEBFLOW_API_KEY});
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const CLIENTS_COLLECTION_ID = '65f88f0b3358f1ed752f57b2';
-        const clients = await webflow.collections.items.listItems(CLIENTS_COLLECTION_ID) as any;
+        const APIUrl = import.meta.env.MODE === 'development' ? 'http://localhost:8080/testimonials' : 'https://jonajo-testimonials-api-nfyf3ncyaq-uc.a.run.app/testimonials';
+        const response = await fetch(APIUrl);
+        let clients = await response.json() as Client[];
+        clients = clients.filter((client) => !client.hidden);
+        clients = clients.sort((a, b) => a.order - b.order);
 
-        let processedClients = clients.items.map((client: any) => {
-          return {
-            client_name: client.fieldData['contact-person'],
-            company_name: client.fieldData['name'],
-            url: client.fieldData['company-link'],
-            image: client.fieldData.image.url,
-            client_message: client.fieldData['client-message'],
-            order: client.fieldData['sort-order'],
-            hidden: client.fieldData.hidden,
-            background_color: client.fieldData['color'],
-            position: client.fieldData['contact-position']
-          };
-        }) as Client[];
-
-        processedClients = processedClients.filter((client) => !client.hidden);
-        processedClients = processedClients.sort((a, b) => a.order - b.order);
-
-        setClients(processedClients);
-
+        setClients(clients);
       } catch (err) {
         console.error("Error fetching collection items:", err);
       }
