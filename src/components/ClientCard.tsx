@@ -1,5 +1,6 @@
 import styles from './ClientCard.module.css';
 import quotationMarks from '../assets/quotation-marks.svg';
+
 export interface Client {
   client_name: string;
   company_name: string;
@@ -15,31 +16,38 @@ export interface Client {
 interface ClientCardProps {
   client: Client;
 }
-export default function ClientCard({ client }: ClientCardProps) {
+
+export default function ClientCard({client}: ClientCardProps) {
 
   return (
     <div className={styles.card}>
       <div className={styles.content}>
-        <img className={styles.quotationMarks} src={quotationMarks} alt="Quotation marks" />
+        <img className={styles.quotationMarks} src={quotationMarks} alt="Quotation marks"/>
         <div className={styles.client__message}>
-          { client.client_message }
+          {client.client_message}
         </div>
-        <div className={styles.client__container}>
+        <div className={styles.client__container} onClick={
+          () => {
+            if (client.url) {
+              window.open(client.url, '_blank');
+            }
+          }
+        }>
           <img
-            style={{ backgroundColor: client.background_color }}
+            style={{backgroundColor: client.background_color}}
             className={styles.client__image}
             src={client.image}
             alt="Client's logo"
           />
           <div className={styles.client__info}>
             <div className={styles.client__name}>
-              { client.client_name }
+              {client.client_name}
             </div>
             <div className={styles.client__position}>
-              { client.position }
+              {client.position}
             </div>
             <div className={styles.client__company}>
-              { client.company_name }
+              {client.company_name}
             </div>
           </div>
         </div>

@@ -22,7 +22,6 @@ function App() {
         const clients = await webflow.collections.items.listItems(CLIENTS_COLLECTION_ID) as any;
 
         let processedClients = clients.items.map((client: any) => {
-          console.log(client)
           return {
             client_name: client.fieldData['contact-person'],
             company_name: client.fieldData['name'],
