@@ -5,16 +5,7 @@ import NewsCard, {News} from './components/NewsCard';
 import Carousel from "./components/Carousel.tsx";
 import {useSearchParams} from "react-router-dom";
 import {WebflowClient} from "webflow-api";
-
-interface Client {
-  client_name: string;
-  company_name: string;
-  url: string;
-  image: string;
-  client_message: string;
-  order: number;
-  hidden: boolean;
-}
+import ClientCard, {Client} from "./components/ClientCard.tsx";
 
 function App() {
   const [news, setNews] = useState<News[]>([]);
@@ -25,12 +16,13 @@ function App() {
   const webflow = new WebflowClient({accessToken: import.meta.env.VITE_WEBFLOW_API_KEY});
 
   useEffect(() => {
-    const fetchCollectionItems = async () => {
+    const fetchClients = async () => {
       try {
         const CLIENTS_COLLECTION_ID = '65f88f0b3358f1ed752f57b2';
         const clients = await webflow.collections.items.listItems(CLIENTS_COLLECTION_ID) as any;
 
         let processedClients = clients.items.map((client: any) => {
+          console.log(client)
           return {
             client_name: client.fieldData['contact-person'],
             company_name: client.fieldData['name'],
@@ -39,6 +31,8 @@ function App() {
             client_message: client.fieldData['client-message'],
             order: client.fieldData['sort-order'],
             hidden: client.fieldData.hidden,
+            background_color: client.fieldData['color'],
+            position: client.fieldData['contact-position']
           };
         }) as Client[];
 
@@ -54,8 +48,9 @@ function App() {
 
     const fetchNews = async () => {
       try {
-        const NEWS_COLLECTION_ID = '65f88f0b3358f1ed752f57b2';
-        const news = await webflow.collections.items.listItems(NEWS_COLLECTION_ID) as any;
+
+        const response = await fetch('https://blog.jonajo.com/feed/json');
+        const news = await response.json();
 
         const processedNews = news.items.map((news: any) => {
           return {
@@ -78,10 +73,10 @@ function App() {
     if (carouselMode && carouselMode === 'blog') {
       fetchNews();
     } else if (carouselMode && carouselMode === 'testimonials') {
-      fetchCollectionItems();
+      fetchClients();
     }
 
-  }, [carouselMode, webflow.collections.items]);
+  }, [carouselMode]);
 
   return (
     <>
@@ -93,8 +88,12 @@ function App() {
             }}/>
           )
         })}
+        {clients && clients.map((client: Client, index) => {
+          return (
+            <ClientCard client={client} key={index}/>
+          )
+        })}
       </Carousel>
-
     </>
   );
 }
