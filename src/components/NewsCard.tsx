@@ -13,18 +13,16 @@ export interface News {
 
 interface NewsProps {
   news: News;
-  onTap: () => void;
 }
 
-export default function NewsCard({news, onTap}: NewsProps) {
+export default function NewsCard({news}: NewsProps) {
 
   function capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   }
 
   return (
-    <div className={`${styles.card} ${news.selected ? styles.selected : ''}`} onClick={() => {
-      onTap();
+    <div className={`${styles.card}`} onClick={() => {
       window.open(news.url, '_blank');
     }}>
       <img className={styles.card__cover} src={news.image} alt={"NewsCard cover photo"}/>

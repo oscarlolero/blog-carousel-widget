@@ -65,14 +65,7 @@ function App() {
       <Carousel mode={carouselMode}>
         {news && news.map((newsItem: News, index) => {
           return (
-            <NewsCard key={index} news={newsItem} onTap={() => {
-              // Update the selected news item
-              const updatedNews = news.map((news, i) => {
-                news.selected = i === index;
-                return news;
-              });
-              setNews(updatedNews);
-            }}/>
+            <NewsCard key={index} news={newsItem} />
           )
         })}
         {clients && clients.map((client: Client, index) => {
