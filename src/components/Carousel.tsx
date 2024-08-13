@@ -85,7 +85,8 @@ const Carousel: React.FC<CarouselProps> = ({children, mode}) => {
               mode === 'blog' &&
               <button
                 className={styles.visitBlog}
-                onClick={() => window.open('https://blog.jonajo.com', '_blank')}
+                // @ts-expect-error Since it's an iframe we need to use window top
+                onClick={() => window.top.location.href = 'https://blog.jonajo.com'}
               >
                 <div className={styles.desktopButtonText}>Visit Our Blog</div>
                 <div className={styles.mobileButtonText}>See All</div>

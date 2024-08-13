@@ -23,7 +23,8 @@ export default function NewsCard({news}: NewsProps) {
 
   return (
     <div className={`${styles.card}`} onClick={() => {
-      window.open(news.url, '_blank');
+      // @ts-expect-error Since it's an iframe we need to use window top
+      window.top.location.href = news.url;
     }}>
       <img className={styles.card__cover} src={news.image} alt={"NewsCard cover photo"}/>
       <div className={styles.card__content}>
