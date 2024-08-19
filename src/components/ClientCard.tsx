@@ -34,6 +34,7 @@ export default function ClientCard({client}: ClientCardProps) {
           }
         }>
           <img
+            loading="lazy"
             style={{backgroundColor: client.background_color}}
             className={styles.client__image}
             src={client.image}
