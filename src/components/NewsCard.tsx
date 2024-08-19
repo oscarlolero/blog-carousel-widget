@@ -26,22 +26,22 @@ export default function NewsCard({news}: NewsProps) {
       // @ts-expect-error Since it's an iframe we need to use window top
       window.top.location.href = news.url;
     }}>
-      <img className={styles.card__cover} src={news.image} alt={"NewsCard cover photo"}/>
+      <img loading="lazy" className={styles.card__cover} src={news.image} alt={"NewsCard cover photo"}/>
       <div className={styles.card__content}>
         <div className={styles.card__description}>
           <div className={styles.card__category}>
-            { capitalizeFirstLetter(news.category) }
+            {capitalizeFirstLetter(news.category)}
           </div>
           <div className={styles.card__date}>
-            { news.date }
+            {news.date}
           </div>
         </div>
         <div className={styles.card__title}>
-          { news.title }
+          {news.title}
         </div>
         <div className={styles.card__author}>
           <img className={styles.card__author__photo} src={userImage} alt="Types author's image"/>
-          <div className={styles.card__author__name}>{ news.author }</div>
+          <div className={styles.card__author__name}>{news.author}</div>
         </div>
       </div>
     </div>
