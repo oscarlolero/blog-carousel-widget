@@ -45,6 +45,9 @@
 }
 
 .client__info {
+    position: absolute;
+    top: 12px;
+    left: 60px;
     color: white;
     font-size: 14px;
     margin-left: 15px;

@@ -26,13 +26,13 @@ export default function ClientCard({client}: ClientCardProps) {
         <div className={styles.client__message}>
           {client.client_message}
         </div>
-        <div className={styles.client__container} onClick={
-          () => {
-            if (client.url) {
-              window.open(client.url, '_blank');
-            }
-          }
-        }>
+        <a
+          className={styles.client__container}
+          href={client.url || '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{display: 'block', textDecoration: 'none'}}
+        >
           <img
             loading="lazy"
             style={{backgroundColor: client.background_color}}
@@ -51,7 +51,7 @@ export default function ClientCard({client}: ClientCardProps) {
               {client.company_name}
             </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   );

@@ -22,10 +22,12 @@ export default function NewsCard({news}: NewsProps) {
   }
 
   return (
-    <div className={`${styles.card}`} onClick={() => {
-      // @ts-expect-error Since it's an iframe we need to use window top
-      window.top.location.href = news.url;
-    }}>
+    <a
+      className={styles.card}
+      href={news.url}
+      target="_top"
+      rel="noopener noreferrer"
+    >
       <img loading="lazy" className={styles.card__cover} src={news.image} alt={"NewsCard cover photo"}/>
       <div className={styles.card__content}>
         <div className={styles.card__description}>
@@ -44,6 +46,6 @@ export default function NewsCard({news}: NewsProps) {
           <div className={styles.card__author__name}>{news.author}</div>
         </div>
       </div>
-    </div>
+    </a>
   )
 }

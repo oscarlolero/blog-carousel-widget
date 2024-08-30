@@ -83,15 +83,16 @@ const Carousel: React.FC<CarouselProps> = ({children, mode}) => {
             </div>
             {
               mode === 'blog' &&
-              <button
+              <a
                 className={styles.visitBlog}
-                // @ts-expect-error Since it's an iframe we need to use window top
-                onClick={() => window.top.location.href = 'https://blog.jonajo.com'}
+                href="https://blog.jonajo.com"
+                target="_top"
+                rel="noopener noreferrer"
               >
-                <div className={styles.desktopButtonText}>Visit Our Blog</div>
-                <div className={styles.mobileButtonText}>See All</div>
-                <img src={arrow} alt={"Blog arrow icon"}/>
-              </button>
+                  <div className={styles.desktopButtonText}>Visit Our Blog</div>
+                  <div className={styles.mobileButtonText}>See All</div>
+                  <img src={arrow} alt={"Blog arrow icon"}/>
+              </a>
             }
           </div>
         </Swiper>
